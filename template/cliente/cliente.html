@@ -1,0 +1,259 @@
+{% extends 'base/base.html' %}
+{% block conteudo %}
+<form class="form_cliente" id="cadastra_funcionarioform" novalidate="">
+  {% csrf_token %}
+<div class="row">
+
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+    <label for="validationCustom01">NOME</label>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+        </div>
+        <input type="text" class="form-control" id="nomec" placeholder="Informe o nome completo" name='cliente_nome' aria-describedby="inputGroupPrepend" required="required">
+        <div class="invalid-feedback">
+            Por Favor, Digite um nome
+        </div>
+    </div>
+</div>
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+    <label for="validationCustom02">E-MAIL</label>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+        </div>
+        <input type="text" class="form-control" id="validationCustomUsername" placeholder="Informe o e-mail" name='email_cliente' aria-describedby="inputGroupPrepend" required="">
+        <div class="invalid-feedback">
+            Digite um email
+        </div>
+    </div>
+</div>
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+    <label for="validationCustomUsername">CPF</label>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+        </div>
+        <input type="text" class="form-control" oninput="mascaraCpf(this)" id="cpfc" placeholder="Informe o CPF"name='cpf_cliente' aria-describedby="inputGroupPrepend" required="" maxlength="11">
+        <div class="invalid-feedback">
+            Por vafor digite um cpf
+        </div>
+    </div>
+</div>
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+    <label for="validationCustomUsername">ENDEREÇO</label>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+        </div>
+        <input type="text" class="form-control" id="validationCustomUsername" name='endereco_cliente' placeholder="Informe o endereço" aria-describedby="inputGroupPrepend">
+    </div>
+</div>
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+    <label for="validationCustomUsername">TELEFONE</label>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+        </div>
+        <input type="text" class="form-control" oninput="mascaraTel(this)" id="validationCustomUsername" name='telefone_cliente' placeholder="Informe o telefone" aria-describedby="inputGroupPrepend" maxlength="11">
+
+    </div>
+</div>
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+    <label for="validationCustomUsername">CEP</label>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+        </div>
+        <input type="text" class="form-control" oninput="mascaraCep(this)" id="cliente_cep" name="cliente_cep" placeholder="Informe o CEP" aria-describedby="inputGroupPrepend" maxlength="8">
+
+    </div>
+</div>
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+        <label for="validationCustomUsername">SEXO</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+            </div>
+            <select class="form-control form-control-lg" name='sexo'>
+                <option>Selecione um sexo</option>
+                <option value='1'> Masculino</option>
+                <option value='0'>Feminino</option>
+            </select>
+        </div>
+    </div>
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+    <label for="validationCustomUsername">DATA DE NASCIMENTO</label>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+        </div>
+        <input type="text" class="form-control" oninput="mascaraData(this)" id="datac" placeholder="Informe a data de nascimento" name='nascimento_cliente' aria-describedby="inputGroupPrepend" required="">
+        <div class="invalid-feedback">
+            Por favor, insira a data de nascimento
+        </div>
+    </div>
+</div>
+
+</div>
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 " style="margin-top:3%;margin-bottom:6%">
+    <button class="btn btn-primary" type="button" id="cadastra_cliente">CADASTRAR</button>
+    <button class="btn btn-danger" type="button" id="limpa_campos">LIMPAR</button>
+</div>
+
+</form>
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+    <div class="card">
+        <h5 class="card-header">TABELA DE CLIENTES</h5>
+        <div class="card-body">
+            <div class="table-responsive ">
+                <table class="table" id="tabela_cliente">
+                    <thead>
+                        <tr>
+                            <th scope="col">NOME</th>
+                            <th scope="col">EMAIL</th>
+                            <th scope="col">CPF</th>
+                            <th scope="col">CEP</th>
+                            <th scope="col">ENDEREÇO</th>
+                            <th scope="col">TELEFONE</th>
+                            <th scope="col">SEXO</th>
+                            <th scope="col">NASCIMENTO</th>
+                            <th scope="col">AÇÕES</th>
+                            
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="Excluir_cliente" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header" style="background:black;">
+        <h4 class="modal-title" style="color:white;">Excluir Cliente</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+        <h4>Você realmente deseja excluir esse cliente?</h4>
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" id="destroy_cliente">EXCLUIR</button>
+        <button type="button" class="btn btn-dark" data-dismiss="modal">VOLTAR</button>
+        </div>
+    </div>
+    </div>
+</div>
+<div id="Editar_cliente" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header" style="background:black;">
+        <h4 class="modal-title" style="color:white;">EDITAR CLIENTE</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+        <div class="col-md-12">
+            <form class="form_cliente_edit" novalidate="">
+            {% csrf_token %}
+    <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+            <label for="validationCustom01">NOME</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+                </div>
+                <input type="text" class="form-control" id="validationCustomUsername" placeholder="Informe o nome completo" name='cliente_nome_edit' aria-describedby="inputGroupPrepend" required="">
+                <div class="invalid-feedback">
+                    Por Favor, Digite um nome
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+            <label for="validationCustom02">E-MAIL</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+                </div>
+                <input type="text" class="form-control" id="validationCustomUsername" placeholder="Informe o e-mail" name='email_cliente_edit' aria-describedby="inputGroupPrepend" required="">
+                <div class="invalid-feedback">
+                Digite um email
+                </div>
+            </div>
+
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                <label for="validationCustomUsername">CPF</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+                    </div>
+                    <input type="text" class="form-control" oninput="mascaraCpf(this)" id="validationCustomUsername" placeholder="Informe o CPF"name='cpf_cliente_edit' aria-describedby="inputGroupPrepend" required="">
+                    <div class="invalid-feedback">
+                    Por favor digite um cpf
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                <label for="validationCustomUsername">ENDEREÇO</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="validationCustomUsername" name='endereco_cliente_edit' placeholder="Informe o endereço" aria-describedby="inputGroupPrepend">
+
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                <label for="validationCustomUsername">TELEFONE</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+                    </div>
+                    <input type="text" class="form-control" oninput="mascaraTel(this)" id="validationCustomUsername" name='telefone_cliente_edit' placeholder="Informe o telefone" aria-describedby="inputGroupPrepend" maxlength="11">
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                <label for="validationCustomUsername">CEP</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+                    </div>
+                    <input type="text" class="form-control" oninput="mascaraCep(this)" id="cliente_cep" name="cliente_cep_edit" placeholder="Informe o CEP" aria-describedby="inputGroupPrepend" >
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                <label for="validationCustomUsername">SEXO</label>
+                <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+            </div>
+            <select class="form-control form-control-lg" name='sexo_edit'>
+                <option value='0'>Selecione um sexo</option>
+                <option value='1'> Masculino</option>
+                <option value='0'>Feminino</option>
+            </select>
+            </div>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+            <label for="validationCustomUsername">DATA DE ANIVERSÁRIO</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+                </div>
+                <input type="text" class="form-control" oninput="mascaraData(this)" id="cliente_data" name="data_cliente_edit" placeholder="Informe a data de nascimento" aria-describedby="inputGroupPrepend">
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-dark" id="edit_cliente">EDITAR</button>
+<button type="button" class="btn btn-dark" data-dismiss="modal">VOLTAR</button>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

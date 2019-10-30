@@ -1,0 +1,189 @@
+{% extends 'base/base.html' %}
+{% block conteudo %}
+<form class="form_fornecedor" id="cadastra_fornecedorform" novalidate="">
+  {% csrf_token %}
+<div class="row">
+
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+    <label for="validationCustom01">NOME</label>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+        </div>
+        <input type="text" class="form-control" id="nomef" placeholder="Nome do fornecedor" name='nome_fornecedor' aria-describedby="inputGroupPrepend" required>
+        <div class="invalid-feedback">
+            Por Favor, Digite um nome
+        </div>
+    </div>
+</div>
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+    <label for="validationCustom02">E-MAIL</label>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+        </div>
+        <input type="text" class="form-control" id="validationCustomUsername" placeholder="E-mail do fornecedor" name='email_fornecedor' aria-describedby="inputGroupPrepend">
+        <div class="invalid-feedback">
+            Digite um email
+        </div>
+    </div>
+</div>
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+    <label for="validationCustomUsername">CNPJ</label>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputcnpj"><i class="fa fa-angle-double-right"></i></span>
+        </div>
+        <input type="text" class="form-control" oninput="mascaraCnpj(this)" id="cnpjf" placeholder="CNPJ do fornecedor"name='cnpj_fornecedor' aria-describedby="inputGroupPrepend" required="" maxlength="11">
+        <div class="invalid-feedback">
+            Por favor, informe o CNPJ
+        </div>
+    </div>
+</div>
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+    <label for="validationCustomUsername">ENDEREÇO</label>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+        </div>
+        <input type="text" class="form-control" id="validationCustomUsername" name='endereco_fornecedor' placeholder="Endereço do fornecedor" aria-describedby="inputGroupPrepend">
+    </div>
+</div>
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+    <label for="validationCustomUsername">TELEFONE</label>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+        </div>
+        <input type="text" class="form-control" oninput="mascaraTel(this)" id="telf" name='telefone_fornecedor' placeholder="Telefone do fornecedor" aria-describedby="inputGroupPrepend" maxlength="11">
+
+    </div>
+</div>
+</div>
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 " style="margin-top:3%;margin-bottom:6%">
+    <button class="btn btn-primary" type="button" id="cadastra_fornecedor">CADASTRAR</button>
+    <button class="btn btn-danger" type="button" id="limpa_campo">LIMPAR</button>
+</div>
+
+</form>
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+    <div class="card">
+        <h5 class="card-header">TABELA DE CLIENTES</h5>
+        <div class="card-body">
+            <div class="table-responsive ">
+                <table class="table" id="tabela_fornecedor">
+                    <thead>
+                        <tr>
+                            <th scope="col">NOME</th>
+                            <th scope="col">CNPJ</th>
+                            <th scope="col">ENDEREÇO</th>
+                            <th scope="col">TELEFONE</th>
+                            <th scope="col">E-MAIL</th>
+                            <th scope="col">AÇÕES</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="Excluir_fornecedor" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header" style="background:black;">
+        <h4 class="modal-title" style="color:white;">Excluir Cliente</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+        <h4>Você realmente deseja excluir esse fornecedor?</h4> 
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" id="exclui_fornecedor">EXCLUIR</button>
+        <button type="button" class="btn btn-dark" data-dismiss="modal">VOLTAR</button>
+        </div>
+    </div>
+    </div>
+</div>
+<div id="Editar_fornecedor" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header" style="background:black;">
+        <h4 class="modal-title" style="color:white;">EDITAR CLIENTE</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body">
+        <div class="col-md-12">
+    <form class="form_fornecedor_edit" novalidate="">
+        {% csrf_token %}
+    <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+            <label for="validationCustom01">NOME</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+                </div>
+                <input type="text" class="form-control" id="validationCustomUsername" placeholder="Informe o nome completo" name='nome_forcecedor_edit' aria-describedby="inputGroupPrepend" required="">
+                <div class="invalid-feedback">
+                    Por Favor, Digite um nome
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+            <label for="validationCustom02">E-MAIL</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+                </div>
+                <input type="text" class="form-control" id="validationCustomUsername" placeholder="Informe o e-mail" name='email_fornecedor_edit' aria-describedby="inputGroupPrepend" required="">
+                <div class="invalid-feedback">
+                Digite um email
+                </div>
+            </div>
+
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                <label for="validationCustomUsername">CNPJ</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+                    </div>
+                    <input type="text" class="form-control" oninput="mascaraCpf(this)" id="validationCustomUsername" placeholder="Informe o CPF"name='cnpj_fornecedor_edit' aria-describedby="inputGroupPrepend" required="">
+                    <div class="invalid-feedback">
+                    Por favor digite um cpf
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                <label for="validationCustomUsername">ENDERECO</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+                    </div>
+                    <input type="text" class="form-control" id="validationCustomUsername" name='endereco_fornecedor_edit' placeholder="Informe o endereço" aria-describedby="inputGroupPrepend">
+
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                <label for="validationCustomUsername">TELEFONE</label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+                    </div>
+                    <input type="text" class="form-control" oninput="mascaraTel(this)" id="validationCustomUsername" name='telefone_fornecedor_edit' placeholder="Informe o telefone" aria-describedby="inputGroupPrepend" maxlength="11">
+                </div>
+            </div>
+    </div>
+</form>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-dark" id="edit_fornecedor">EDITAR</button>
+<button type="button" class="btn btn-dark" data-dismiss="modal">VOLTAR</button>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
+

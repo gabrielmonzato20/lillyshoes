@@ -1,0 +1,160 @@
+{% extends 'base/base.html' %}
+{% block conteudo %}
+<form class="form_cliente" id="cadastra_funcionarioform" novalidate="">
+  {% csrf_token %}
+<div class="row">
+
+    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+        <label for="validationCustom01">NOME</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+            </div>
+            <input type="text" class="form-control" id="nomea" placeholder="Informe o primeiro nome" name='nome_func' aria-describedby="inputGroupPrepend" required=""/>
+            <div class="invalid-feedback">
+                Por Favor, Digite um nome
+            </div>
+        </div>
+    </div>
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+    <label for="validationCustom02">E-MAIL</label>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+        </div>
+        <input type="text" class="form-control" id="emaila" placeholder="Informe o e-mail" name='email_atendente' aria-describedby="inputGroupPrepend">
+        <div class="invalid-feedback">
+          Digite um email
+        </div>
+    </div>
+
+    </div>
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+    <label for="validationCustom02">SENHA</label>
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></i></span>
+        </div>
+        <input type="password" class="form-control" id="senhaa" placeholder="Crie uma senha" name='password' aria-describedby="inputGroupPrepend">
+        <div class="invalid-feedback">
+          Digite um email
+        </div>
+    </div>
+
+</div>
+  <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12" style='padding-top:2%;'>
+                                                <label class="custom-control custom-checkbox">
+<input type="checkbox" checked="" class="custom-control-input"  name="admin" value="1"><span class="custom-control-label">Administrador</span>
+</label>
+  </div>                
+</div>
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 " style="margin-top:3%;margin-bottom:6%">
+  <button class="btn btn-primary" type="button" id="cadastra_func">CADASTRAR</button>
+  <button class="btn btn-danger" type="button" id="limpa_campos">LIMPAR</button>
+</div>
+</form>
+<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+<div class="card">
+<h5 class="card-header">TABELA DE ATENDENTES</h5>
+<div class="card-body">
+    <div class="table-responsive ">
+        <table class="table" id='tabela_funcionario'>
+            <thead>
+                <tr>
+                    <th scope="col">NOME</th>
+                    <th scope="col">EMAIL</th>
+                    <th scope="col">PERFIL</th>
+                    <th scope="col">AÇÕES</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+</div>
+<div id="Excluir_funcionario" class="modal fade" role="dialog">
+<div class="modal-dialog">
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-header" style="background:black;">
+      <h4 class="modal-title" style="color:white;">Excluir Funcionario</h4>
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body">
+      <h4>Você realmente deseja excluir esse atendente?</h4>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" id="destroy_funcionario">EXCLUIR</button>
+      <button type="button" class="btn btn-dark" data-dismiss="modal">VOLTAR</button>
+    </div>
+  </div>
+</div>
+</div>
+<div id="Editar_funcionario" class="modal fade" role="dialog">
+<div class="modal-dialog modal-lg">
+<!-- Modal content-->
+<div class="modal-content">
+<div class="modal-header" style="background:black;">
+<h4 class="modal-title" style="color:white;">EDITAR ATENDENTE</h4>
+<button type="button" class="close" data-dismiss="modal">&times;</button>
+</div>
+<div class="modal-body">
+<div class="col-md-12">
+<form class="form_cliente" id="cadastra_funcionarioform_edit" novalidate="">
+{% csrf_token %}
+<div class="row">
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+<label for="validationCustom01">NOME</label>
+<div class="input-group">
+<div class="input-group-prepend">
+<span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+</div>
+<input type="text" class="form-control" id="validationCustomUsername" placeholder="Informe o nome" name='nome_func_edit' aria-describedby="inputGroupPrepend" required="">
+<div class="invalid-feedback">
+Por Favor, Digite um nome
+</div>
+</div>
+</div>
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+<label for="validationCustom02">E-MAIL</label>
+<div class="input-group">
+<div class="input-group-prepend">
+<span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+</div>
+<input type="text" class="form-control" id="validationCustomUsername" placeholder="Informe o e-mail" name='email_atendente_edit' aria-describedby="inputGroupPrepend" required="">
+<div class="invalid-feedback">
+Digite um email
+</div>
+</div>
+</div>
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+<label for="validationCustom02">SENHA</label>
+<div class="input-group">
+<div class="input-group-prepend">
+<span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-angle-double-right"></i></span>
+</div>
+<input type="password" class="form-control" id="validationCustomUsername" placeholder="Informe a senha" name='password_edit' aria-describedby="inputGroupPrepend" required="">
+<div class="invalid-feedback">
+Digite um email
+</div>
+</div>
+</div>
+<div class="col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12" style='padding-top:2%;'>
+<label class="custom-control custom-checkbox">
+<input type="checkbox" checked="" class="custom-control-input"  name="admin_edit" value="1"><span class="custom-control-label">Administrador</span>
+</label>
+</div>                
+</div>
+</form>
+</div>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-outline-dark" id="edit_funcionario">EDITAR</button>
+<button type="button" class="btn btn-dark" data-dismiss="modal">VOLTAR</button>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}
