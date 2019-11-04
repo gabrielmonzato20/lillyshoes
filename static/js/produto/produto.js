@@ -142,14 +142,14 @@ $(document).ready(function(){
     $("input[name='telefone_cliente]").val('');
   });
     $('#cadastra_produto').click(function(){
-        if ($("#nomep").val() == '' || $("#estoquec").val() == '' || $("#precoc").val() == ''){
+        if ($("input[name='nome_produto']").val() == '' || $("#estoquec").val() == '' || $("#precoc").val() == ''){
           const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
             showConfirmButton: false,
             timer: 3000
           });
-    
+
           Toast.fire({
             type: 'error',
             title: "Ops! preencha todos os campos."

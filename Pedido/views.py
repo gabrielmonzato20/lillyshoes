@@ -11,6 +11,7 @@ from django.forms.models import model_to_dict
 import requests
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
+import json
 
 class ViewPedido():
     @login_required(login_url='login')
@@ -51,20 +52,23 @@ class ViewPedido():
 
     def store(request):
         if request.method == 'POST':
-            dados =  request.POST
-            cliente = request.POST['cliente']
-            atendente = request.POST['atendente']
-            produtos = dict(request.POST)
-            del produtos['cliente']
-            del produtos['atendente']
-            produtos = list(produtos.values())
+            dados =  json.loads(request.body.decode('utf-8'))
+            cliente = dados['cliente']
+            atendente = dados['atendente']
+            produtos = dados['produtos']
             Atendente_model = User.objects.get(pk=atendente)
             Cliente_model = Cliente.objects.get(pk=cliente)
             pedido = Pedido(atendente = Atendente_model,cliente = Cliente_model)
             pedido.save()
-            for c in range(0,len(produtos),3):
-                produtos_model=Produto.objects.get(pk = produtos[c][0])
-                produtos_pedido = Produto_Pedido.objects.create(produto=produtos_model, pedido =pedido,qtd =produtos[c+1][0],preco_venda =produtos[c+2][0])
+            for produto in  produtos:
+                produtos_model=Produto.objects.get(pk = produto['produto'])
+                if(int(produtos_model.quantidade) == 0 or int(produtos_model.quantidade) < int(produto['quantidade'])):
+                    pedido.delete()
+                    return HttpResponseNotFound(f'Produto {produtos_model.nome} sem estoque')
+
+                produtos_pedido = Produto_Pedido.objects.create(produto=produtos_model, pedido =pedido,qtd =produto['quantidade'],preco_venda =produto['preco'])
+                produtos_model.quantidade-=int(produto['quantidade'])
+                produtos_model.save()
             return JsonResponse({'menssagem':'Pedido Cadastrado com sucesso'},content_type="application/json",status=200)
 
 
@@ -100,7 +104,13 @@ class ViewPedido():
     def destroy(request, id):
         if request.method == 'DELETE':
             pedido = Pedido.objects.filter(pk = id)
+
             if(pedido.count() > 0):
+                # produtos_relation =  Produto_Pedido.objects.get(pedido = pedido).all()
+                # for produtos in produtos_relation:
+                #     protudo_model = Produto.objects.get(pk = produtos.produto)
+                #     protudo_model.qtd+= int(produtos.qtd)
+                #     protudo_model.save()
                 pedido.delete()
                 return JsonResponse({'menssagem':'Pedido Excluido com sucesso'},content_type="application/json",status=200)
             return HttpResponseNotFound('Erro interno')
@@ -108,25 +118,31 @@ class ViewPedido():
 
     def update(request,id):
                 if request.method == 'POST':
-                    dados =  request.POST
-
-                    cliente = request.POST['cliente_edit']
-                    atendente = request.POST['atendente_edit']
-                    produtos = dict(request.POST)
-                    del produtos['cliente_edit']
-                    del produtos['cliente_edit']
-                    produtos = list(produtos.values())
+                    dados =  json.loads(request.body.decode('utf-8'))
+                    cliente = dados['cliente']
+                    atendente = dados['atendente']
+                    produtos = dados['produtos']
                     Atendente_model = User.objects.get(pk=atendente)
                     Cliente_model = Cliente.objects.get(pk=cliente)
                     pedido = Pedido.objects.get(pk = id);
                     pedido.atendente = Atendente_model
                     pedido.cliente = Cliente_model
+                    pedido.save()
                     produtos_relation =  Produto_Pedido.objects.filter(pedido = pedido)
+                    # for produtos in produtos_relation:
+                    #     protudo_model = Produto.objects.get(pk = produtos.produto)
+                    #     protudo_model.qtd+= int(produtos.qtd)
+                    #     protudo_model.save()
                     produtos_relation.delete()
-                    for c in range(0,len(produtos),3):
-                        produtos_model=Produto.objects.get(pk = produtos[c][0])
-                        produtos_peido = Produto_Pedido.objects.create(produto=produtos_model, pedido =pedido,qtd =produtos[c+1][0])
-                    return JsonResponse({'menssagem':'Pedido atualizado com sucesso'},content_type="application/json",status=200)
+                    for produto in  produtos:
+                        produtos_model=Produto.objects.get(pk = produto['produto'])
+                        if(int(produtos_model.quantidade) == 0 or int(produtos_model.quantidade) < int(produto['quantidade'])):
+                            pedido.delete()
+                            return HttpResponseNotFound(f'Produto {produtos_model.nome} sem estoque')
+                        produtos_pedido = Produto_Pedido.objects.create(produto=produtos_model, pedido =pedido,qtd =produto['quantidade'],preco_venda =produto['preco'])
+                        produtos_model.quantidade-=int(produto['quantidade'])
+                        produtos_model.save()
+                    return JsonResponse({'menssagem':f'Pedido {pedido.pk} atualizado com sucesso'},content_type="application/json",status=200)
 
     def show(request,id):
         if request.method == 'GET':

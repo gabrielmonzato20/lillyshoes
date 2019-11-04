@@ -1,7 +1,7 @@
 $(document).ready(function(){
     var csrftoken = $("[name=csrfmiddlewaretoken]").val();
         let tabela_pedido=$("#tabela_pedido");
-  
+
           tabela_pedido.DataTable({
         ajax: '/pedidos/index',
         columns:[
@@ -9,7 +9,7 @@ $(document).ready(function(){
           {'data':'atendente',"name":'atendente'},
           {"data":'id','name':'id'},
           {"data":'id','name':'id'},
-  
+
         ],
           "language": {
              "search": "PESQUISAR:",
@@ -19,7 +19,7 @@ $(document).ready(function(){
               'next':"Próximo",
               'previous':"Anterior",
             }
-  
+
            },
       "autoWidth": true,
       dom: 'Bfrtip',
@@ -55,9 +55,9 @@ $(document).ready(function(){
                   'quantidade':'',
                   'preco': '',
               },
-  
+
             ],
-  
+
             },
             methods:{
               add_linha:function(){
@@ -72,7 +72,7 @@ $(document).ready(function(){
                   if(this.dados.length >1){
                       this.dados.splice(index,1)
                   }
-  
+
               },
               remove_all:function(){
                 this.dados.splice(0,this.dados.length-1)
@@ -85,41 +85,57 @@ $(document).ready(function(){
                       showConfirmButton: false,
                       timer: 3000
                     });
-          
+
                     Toast.fire({
                       type: 'error',
                       title: "Ops! preencha todos os campos."
                     })
                     return false;
                   }
-  
-              $.ajax({
-                url: '/pedidos/store',
-                headers: { "X-CSRFToken":  csrftoken },
-                type:'POST',
-                data:{'produtos':{'data':this.dados} , 'cliente':$('select[name="cliente_pedido"]').val(),'atendente':$('select[name="atendente_pedido"]').val()},
-                success: function(data){
-                  console.log('data passou');
+
+                  axios({
+        method: 'post',
+        url:'/pedidos/store',
+      data: {
+        produtos:this.dados,
+      cliente:$('select[name="cliente_pedido"]').val(),
+      atendente:$('select[name="atendente_pedido"]').val()
+    },
+    headers: { "X-CSRFToken":  csrftoken }
+  }) .then(function (response) {
+                  console.log(response)
+
                   const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 3000
-                  });
-  
-                  Toast.fire({
-                    type: 'success',
-                    title: data.menssagem
-                  });
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+              });
+
+              Toast.fire({
+                type: 'success',
+                title: response.data.menssagem
+              });
               $('select[name="cliente_pedido"]').val('');
               $('select[name="atendente_pedido"]').val('');
-                tabela_pedido.DataTable().ajax.reload();
-                },
-                error: function(err){
-                  console.log(err);
-                }
+              tabela_pedido.DataTable().ajax.reload();
+              // console.log('oi');
               })
-  remove_all()
+              .catch(function (error) {
+                console.log(error.responseText);
+                console.log(error.response);
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000
+                });
+
+                Toast.fire({
+                  type: 'error',
+                  title: error.response.data
+                })
+              });
         }
         }
         });
@@ -129,11 +145,12 @@ $(document).ready(function(){
     );
   }
         var gerenciamento = function(data,type,row){
-  
+
              return ("<div class ='row'>"+
               "<div class ='col-md-12 d-flex'>"+
               // "<div class='col-md-4'><button class='btn btn-outline-dark' id='editar_pedido' idd='"+row.id+"'>EDITAR</button></div>"+
               "<div class='col-md-6'><button class='btn btn-dark' id='excluir_pedido' idd='"+row.id+"' type='button'>DELETAR</button></div>"+
+              "<div class='col-md-6'><button class='btn btn-outline-dark' id='edit_pedido' idd='"+row.id+"' type='button'>Editar</button></div>"+
               "</div>"+
               "</div>");
         }
@@ -142,12 +159,116 @@ $(document).ready(function(){
           $("#Excluir_Pedido #destroy_pedido").attr('idd',$(this).attr('idd'));
           $("#Excluir_Pedido").modal();
         });
+
+        $(document).on('click','#edit_pedido',function(){
+          console.log($(this).attr('idd'));
+          $("#Editar_Pedido  input[name='id_pedido']").val($(this).attr('idd'));
+          $("#Editar_Pedido").modal();
+          $('#pedido_orcamento_edit').attr('id','pedido_orcamento_edit'+$(this).attr('idd'))
+           var app_edit = new Vue({
+              el:'#pedido_orcamento_edit'+$(this).attr('idd'),
+              data:{
+                dados_edit:[
+                {
+                    'produto':' ',
+                    'quantidade':'',
+                    'preco': '',
+                },
+
+              ],
+
+              },
+              methods:{
+                add_linha_edit:function(){
+                    this.dados_edit.push({
+                    'produto':'  ',
+                    'quantidade':'',
+                    'preco': '',
+                  })
+                  console.log(this.dados);
+                },
+                excluir_linha_edit:function(index){
+                    if(this.dados_edit.length >1){
+                        this.dados_edit.splice(index,1)
+                    }
+
+                },
+                remove_all:function(){
+                  this.dados_edit.splice(0,this.dados.length-1)
+                },
+                post_data_edit: function(){
+                  if ($("#qtdep_edit").val() == '' ||$("#valorp_edit").val() == ''){
+                      const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 3000
+                      });
+
+                      Toast.fire({
+                        type: 'error',
+                        title: "Ops! preencha todos os campos."
+                      })
+                      return false;
+                    }
+
+                    axios({
+          method: 'post',
+          url:'/pedidos/edit/'+  $("#Editar_Pedido  input[name='id_pedido']").val(),
+        data: {
+          produtos:this.dados_edit,
+        cliente:$('select[name="cliente_pedido_edit"]').val(),
+        atendente:$('select[name="atendente_pedido_edit"]').val()
+      },
+      headers: { "X-CSRFToken":  csrftoken }
+    }) .then(function (response) {
+                    console.log(response)
+
+                    const Toast = Swal.mixin({
+                  toast: true,
+                  position: 'top-end',
+                  showConfirmButton: false,
+                  timer: 3000
+                });
+
+                Toast.fire({
+                  type: 'success',
+                  title: response.data.menssagem
+                });
+                $('select[name="cliente_pedido_edit"]').val('');
+                $('select[name="atendente_pedido_edit"]').val('');
+                tabela_pedido.DataTable().ajax.reload();
+                // console.log('oi');
+                  $("#Editar_Pedido").modal('hide');
+                })
+                .catch(function (error) {
+                  console.log(error.responseText);
+                  console.log(error.response);
+                  const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                  });
+
+                  Toast.fire({
+                    type: 'error',
+                    title: error.response.data
+                  })
+                });
+          }
+          }
+          });
+          console.log(app_edit);
+        });
+
+
         $(document).on('click','.mostrar_produto',function(){
           $.ajax({
             url: '/pedidos/show/'+$(this).attr('id'),
             headers: { "X-CSRFToken":  csrftoken },
             type:'GET',
-            success: function(data){  
+            success: function(data){
                 var dados_pedido = data['data'][0]['produtos'];
                 $('#produtos_show tbody > tr').remove();
 
@@ -158,7 +279,7 @@ $(document).ready(function(){
 }
                 $("h1#ti").html(data[0]);
                 $("#Modal_produtos").modal();
-  
+
             },
             error: function(err){
               console.log(err);
@@ -177,7 +298,7 @@ $(document).ready(function(){
                   showConfirmButton: false,
                   timer: 3000
                 });
-  
+
                 Toast.fire({
                   type: 'success',
                   title: data.menssagem
@@ -192,7 +313,7 @@ $(document).ready(function(){
                   showConfirmButton: false,
                   timer: 3000
                 });
-  
+
                 Toast.fire({
                   type: 'error',
                   title: error.responseText
