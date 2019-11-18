@@ -24,7 +24,7 @@ $(document).ready(function(){
       "autoWidth": true,
       dom: 'Bfrtip',
          buttons: true,
-         buttons:    [{extend: 'excel', text:'Excel',class:'btn btn-default'},{extend: 'csv', text:'CSV',class:'btn btn-warning'}],
+         buttons:    [{extend: 'excel', text:'EXCEL',class:'btn btn-default'},{extend: 'csv', text:'CSV',class:'btn btn-warning'}],
          "columnDefs": [
            {
             "targets": [2],
@@ -149,8 +149,8 @@ $(document).ready(function(){
              return ("<div class ='row'>"+
               "<div class ='col-md-12 d-flex'>"+
               // "<div class='col-md-4'><button class='btn btn-outline-dark' id='editar_pedido' idd='"+row.id+"'>EDITAR</button></div>"+
+              "<div class='col-md-6'><button class='btn btn-outline-dark' id='edit_pedido' idd='"+row.id+"' type='button'>EDITAR</button></div>"+
               "<div class='col-md-6'><button class='btn btn-dark' id='excluir_pedido' idd='"+row.id+"' type='button'>DELETAR</button></div>"+
-              "<div class='col-md-6'><button class='btn btn-outline-dark' id='edit_pedido' idd='"+row.id+"' type='button'>Editar</button></div>"+
               "</div>"+
               "</div>");
         }
