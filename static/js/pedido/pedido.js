@@ -274,8 +274,8 @@ $(document).ready(function(){
 
                 for (index = 0; index < dados_pedido.length; ++index) {
                 console.log(dados_pedido[index]);
-                let valor_total = dados_pedido[index]['preco_venda'] *dados_pedido[index]['qtd_venda'];
-                $("#produtos_show > tbody").append("<tr><td>"+dados_pedido[index]['nome']+"</td><td>"+dados_pedido[index]['qtd_venda']+"</td><td>"+dados_pedido[index]['preco_venda']+"</td><td>R$"+valor_total+"</td></tr>");
+                let valor_total = (dados_pedido[index]['preco_venda'] *dados_pedido[index]['qtd_venda'])-dados_pedido[index]['desconto'];
+                $("#produtos_show > tbody").append("<tr><td>"+dados_pedido[index]['nome']+"</td><td>"+dados_pedido[index]['qtd_venda']+"</td><td>"+dados_pedido[index]['preco_venda']+"</td><td>"+dados_pedido[index]['desconto']+"</td><td>R$"+valor_total+"</td></tr>");
 }
                 $("h1#ti").html(data[0]);
                 $("#Modal_produtos").modal();
