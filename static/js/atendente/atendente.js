@@ -65,7 +65,7 @@ columns:[
 dom: 'Bfrtip',
 "autoWidth": true,
 buttons: true,
- buttons:    [{extend: 'excel', text:'Excel',class:'btn btn-default'},{extend: 'csv', text:'CSV',class:'btn btn-warning'}],
+ buttons:    [{extend: 'excel', text:'EXCEL',class:'btn btn-default'},{extend: 'csv', text:'CSV',class:'btn btn-warning'}],
  "columnDefs": [ {
     "targets": [3],
     Width: '150px',

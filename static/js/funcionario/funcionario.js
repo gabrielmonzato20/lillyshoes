@@ -29,7 +29,7 @@ $(document).ready(function(){
   "autoWidth": true,
   dom: 'Bfrtip',
 	 buttons: true,
-     buttons:    [{extend: 'excel', text:'Excel',class:'btn btn-default'},{extend: 'csv', text:'CSV',class:'btn btn-warning'}],
+     buttons:    [{extend: 'excel', text:'EXCEL',class:'btn btn-default'},{extend: 'csv', text:'CSV',class:'btn btn-warning'}],
      "columnDefs": [ {
         "targets": [8],
         Width: '150px',
