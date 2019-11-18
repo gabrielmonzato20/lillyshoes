@@ -38,17 +38,7 @@ class ViewPedido():
                 produtos.append(produto.copy())
                 produto.clear()
             return render(request,"pedido/pedido.html",{"user":request.user,'atendentes':funcionarios,"clientes":clientes,'produtos':produtos})
-    def exemplo(request):
-        print()
-        print(request.POST['atendente'])
-        dados = dict(request.POST);
-        del dados['cliente']
-        del dados['atendente']
-        cont = 0
-        print()
-        dados = list(dados.values())
-        for c in range(0,len(dados),3):
-            print(c)
+ 
 
     def store(request):
         if request.method == 'POST':
@@ -66,7 +56,7 @@ class ViewPedido():
                     pedido.delete()
                     return HttpResponseNotFound(f'Produto {produtos_model.nome} sem estoque')
 
-                produtos_pedido = Produto_Pedido.objects.create(produto=produtos_model, pedido =pedido,qtd =produto['quantidade'],preco_venda =produto['preco'])
+                produtos_pedido = Produto_Pedido.objects.create(produto=produtos_model, pedido =pedido,qtd =produto['quantidade'],desconto =produto['desconto'])
                 produtos_model.quantidade-=int(produto['quantidade'])
                 produtos_model.save()
             return JsonResponse({'menssagem':'Pedido Cadastrado com sucesso'},content_type="application/json",status=200)
@@ -92,7 +82,7 @@ class ViewPedido():
                     protudo_model = Produto.objects.get(pk = produto['pk'])
                     relacionamento= Produto_Pedido.objects.filter(pedido = pedido_model,produto = protudo_model).last()
                     produto_dic['qtd_venda'] = relacionamento.qtd
-                    produto_dic['preco_venda'] = relacionamento.preco_venda
+                    produto_dic['desconto'] = relacionamento.desconto
                     produtos.append(produto_dic.copy())
                     produto_dic.clear()
                 pedido['produtos'] = produtos
@@ -139,7 +129,7 @@ class ViewPedido():
                         if(int(produtos_model.quantidade) == 0 or int(produtos_model.quantidade) < int(produto['quantidade'])):
                             pedido.delete()
                             return HttpResponseNotFound(f'Produto {produtos_model.nome} sem estoque')
-                        produtos_pedido = Produto_Pedido.objects.create(produto=produtos_model, pedido =pedido,qtd =produto['quantidade'],preco_venda =produto['preco'])
+                        produtos_pedido = Produto_Pedido.objects.create(produto=produtos_model, pedido =pedido,qtd =produto['quantidade'],desconto =produto['desconto'])
                         produtos_model.quantidade-=int(produto['quantidade'])
                         produtos_model.save()
                     return JsonResponse({'menssagem':f'Pedido {pedido.pk} atualizado com sucesso'},content_type="application/json",status=200)
@@ -162,7 +152,7 @@ class ViewPedido():
                     protudo_model = Produto.objects.get(pk = produto['pk'])
                     relacionamento= Produto_Pedido.objects.filter(pedido = pedido_model,produto = protudo_model).last()
                     produto_dic['qtd_venda'] = relacionamento.qtd
-                    produto_dic['preco_venda'] = relacionamento.preco_venda
+                    produto_dic['desconto'] = relacionamento.desconto
                     produtos.append(produto_dic.copy())
                     produto_dic.clear()
                 pedido['produtos'] = produtos

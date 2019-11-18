@@ -8,3 +8,4 @@ class Produto(models.Model):
     cor = models.CharField(max_length=22)
     tamamho = models.FloatField()
     quantidade = models.IntegerField()
+    preco_venda = models.FloatField(default= 0)

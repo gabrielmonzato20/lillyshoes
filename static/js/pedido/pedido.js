@@ -53,7 +53,7 @@ $(document).ready(function(){
               {
                   'produto':' ',
                   'quantidade':'',
-                  'preco': '',
+                  'desconto': '',
               },
 
             ],
@@ -64,7 +64,7 @@ $(document).ready(function(){
                   this.dados.push({
                   'produto':'  ',
                   'quantidade':'',
-                  'preco': '',
+                  'desconto': '',
                 })
                 console.log(this.dados);
               },
@@ -172,7 +172,7 @@ $(document).ready(function(){
                 {
                     'produto':' ',
                     'quantidade':'',
-                    'preco': '',
+                    'desconto': '',
                 },
 
               ],
@@ -183,7 +183,7 @@ $(document).ready(function(){
                     this.dados_edit.push({
                     'produto':'  ',
                     'quantidade':'',
-                    'preco': '',
+                    'desconto': '',
                   })
                   console.log(this.dados);
                 },

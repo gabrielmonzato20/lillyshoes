@@ -10,6 +10,7 @@ $(document).ready(function(){
       {"data":'cor','name':'cor'},
         {"data":'tamamho','name':'tamamho'},
       {"data":'preco','name':'preco'},
+      {"data":'preco_venda','name':'preco_venda'},
       {"data":'quantidade','name':'quantidade'},
       {'data':'id',"name":'id'},
             ],
@@ -27,7 +28,7 @@ $(document).ready(function(){
 	 buttons: true,
      buttons:    [{extend: 'excel', text:'Excel',class:'btn btn-default'},{extend: 'csv', text:'CSV',class:'btn btn-warning'}],
      "columnDefs": [ {
-        "targets": [6],
+        "targets": [7],
         Width: '150px',
         'orderning': false,
         "render":function(data,type,row){

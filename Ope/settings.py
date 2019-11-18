@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'Atendente',
     'Fornecedor',
+    'Dashboard',
 ]
 
 MIDDLEWARE = [

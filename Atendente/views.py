@@ -21,7 +21,7 @@ class ViewFuncionario:
             if user is not None:
                 login(request,user)
                 request.session['admin_permissao'] = True if user.has_perm('change_user') else False
-                return redirect('view_atendente')
+                return redirect('dashborad')
             else:
                 erro = True
                 return render(request, 'login/login.html', {'form': formulario,'erro':erro})

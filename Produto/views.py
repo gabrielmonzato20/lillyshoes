@@ -19,6 +19,7 @@ class ViewProduto():
             produto_tamanho = dados['produto_tamanho']
             produto_cor= dados['produto_cor']
             produto_preco= dados['produto_preco']
+            produto_preco_venda= dados['produto_preco_venda']
             produto_estoque = dados['produto_estoque']
 
             contador = Produto.objects.filter(nome = produto_nome , descricao = produto_descricao,tamamho=produto_tamanho,cor=produto_cor,preco=produto_preco).count()
@@ -30,7 +31,8 @@ class ViewProduto():
             tamamho=produto_tamanho,
             cor=produto_cor,
             preco=produto_preco,
-            quantidade = produto_estoque
+            quantidade = produto_estoque,
+            preco_venda = produto_preco_venda
             )
             produto.save()
 
@@ -70,6 +72,7 @@ class ViewProduto():
                 produto_tamanho = dados['produto_tamanho_edit']
                 produto_cor= dados['produto_cor_edit']
                 produto_preco= dados['produto_preco_edit']
+                produto_preco_venda= dados['produto_preco_venda_edit']
                 produto_estoque = dados['produto_estoque_edit']
                 contador = Produto.objects.filter(nome = produto_nome , descricao = produto_descricao,tamamho=produto_tamanho,cor=produto_cor,preco=produto_preco).count()
                 produto = Produto.objects.get(pk = id)
@@ -82,6 +85,7 @@ class ViewProduto():
                 produto.cor=produto_cor
                 produto.preco=produto_preco
                 produto.quantidade=produto_estoque
+                produto.preco_venda=produto_preco_venda
                 produto.save()
                 return JsonResponse({'menssagem':f'Atualização realizada com sucesso'},content_type="application/json",status=200)
         return HttpResponseNotFound('Ops! Não foi possível atualizar as informações do produto')
