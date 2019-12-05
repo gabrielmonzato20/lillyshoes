@@ -42,8 +42,9 @@ $(document).ready(function(){
          'orderning': false,
          "render":function(data,type,row){
            if(data == '0'){
-             return 'Tamanho Indefinido '
+             return 'Tamanho Indefinido';
            }
+           return data;
          }
        },
        {
