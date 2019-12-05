@@ -94,7 +94,7 @@ class ViewFuncionario:
             if(contador > 0 and funcionario_username != funcionario.username):
                 return HttpResponseNotFound('Usuario  já cadastrado.')
             funcionario = User.objects.get(pk = id)
-            funcionario.password=senha
+            funcionario.set_password(senha)
             funcionario.username=funcionario_username
             funcionario.is_admin=admin
             funcionario.email = funcionario_email

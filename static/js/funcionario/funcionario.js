@@ -145,15 +145,21 @@ $(document).ready(function(){
 
 
   var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+  $('#limpa_campos_atendente').click(function(){
+    $("input[name='nome_func']").val('');
+    $("input[name='email_atendente']").val('');
+    $("input[name='password']").val('');
+  });
   $('#limpa_campos').click(function(){
     $("input[name='cliente_nome']").val('');
     $("input[name='email_cliente']").val('');
     $("input[name='cliente_cep']").val('');
     $("input[name='cpf_cliente']").val('');
     $("input[name='endereco_cliente']").val('');
-    $("input[name='telefone_cliente]").val('');
+    $("input[name='telefone_cliente']").val('');
     $("input[name='nascimento_cliente']").val('');
   });
+  
     $('#cadastra_cliente').click(function(){
         if ($("#nomec").val() == '' || $("#cpfc").val() == '' || $("#datac").val() == ''){
           const Toast = Swal.mixin({

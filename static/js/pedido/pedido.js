@@ -159,13 +159,16 @@ $(document).ready(function(){
           $("#Excluir_Pedido #destroy_pedido").attr('idd',$(this).attr('idd'));
           $("#Excluir_Pedido").modal();
         });
-
+var lista_ids = []
         $(document).on('click','#edit_pedido',function(){
           console.log($(this).attr('idd'));
           $("#Editar_Pedido  input[name='id_pedido']").val($(this).attr('idd'));
           $("#Editar_Pedido").modal();
           $('#pedido_orcamento_edit').attr('id','pedido_orcamento_edit'+$(this).attr('idd'))
-           var app_edit = new Vue({
+          if(lista_ids.includes($(this).attr('idd'))){
+
+          }else{
+            var app_edit = new Vue({
               el:'#pedido_orcamento_edit'+$(this).attr('idd'),
               data:{
                 dados_edit:[
@@ -259,7 +262,11 @@ $(document).ready(function(){
           }
           }
           });
+          lista_ids.push($(this).attr('idd'));
+          }
+        
           console.log(app_edit);
+          console.log(lista_ids);
         });
 
 

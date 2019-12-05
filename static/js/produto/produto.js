@@ -35,14 +35,25 @@ $(document).ready(function(){
            return gerenciamento(data,type,row);
         }
       },
+      
       {
-         "targets": [2],
+         "targets": [3],
          Width: '150px',
          'orderning': false,
          "render":function(data,type,row){
-           return '<div style="background:'+data+';padding:15%"></div>'
+           if(data == '0'){
+             return 'Tamanho Indefinido '
+           }
          }
-       }
+       },
+       {
+        "targets": [2],
+        Width: '150px',
+        'orderning': false,
+        "render":function(data,type,row){
+          return '<div style="background:'+data+';padding:15%"></div>'
+        }
+      }
     ]
     });
 
