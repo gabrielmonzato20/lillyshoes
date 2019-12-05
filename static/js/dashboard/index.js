@@ -8,9 +8,31 @@ $.ajax({
 }).done(function(data){
     var label = [];
     var dadoss = [];
+    var color = [];
+    var linhas_fora = [];
+    var hover_color = [];
     $.each( JSON.parse(data),function(index, value){
         label.push(value['atendente']); 
         dadoss.push(value['total']);
+        var randomR = Math.floor((Math.random() * 130) + 100);
+        var randomG = Math.floor((Math.random() * 130) + 100);
+        var randomB = Math.floor((Math.random() * 130) + 100);
+       
+        var graphBackground = "rgb(" 
+                + randomR + ", " 
+                + randomG + ", " 
+                + randomB + ")";
+        color.push(graphBackground);
+        var graphOutline = "rgb(" 
+        + (randomR - 80) + ", " 
+        + (randomG - 80) + ", " 
+        + (randomB - 80) + ")";
+        linhas_fora.push(graphOutline);
+        var hoverColors = "rgb(" 
+        + (randomR + 25) + ", " 
+        + (randomG + 25) + ", " 
+        + (randomB + 25) + ")";
+        hover_color.push(hoverColors);
     });
     var myChart = new Chart(ctx, {
         type: 'bar',
@@ -19,7 +41,10 @@ $.ajax({
             datasets: [{
                 label: 'Vendas por atendente',
                 data: dadoss,
-                borderWidth: 0
+                borderWidth: 1,
+                backgroundColor: color,
+                hoverBackgroundColor: hover_color,
+                borderColor: linhas_fora
             }]
         },
         options: {
@@ -46,9 +71,31 @@ $.ajax({
 }).done(function(data){
     var label = [];
     var dadoss = [];
+    var color = [];
+    var linhas_fora = [];
+    var hover_color = [];
     $.each( JSON.parse(data),function(index, value){
         label.push(value['created']); 
         dadoss.push(value['total']);
+        var randomR = Math.floor((Math.random() * 130) + 100);
+        var randomG = Math.floor((Math.random() * 130) + 100);
+        var randomB = Math.floor((Math.random() * 130) + 100);
+       
+        var graphBackground = "rgb(" 
+                + randomR + ", " 
+                + randomG + ", " 
+                + randomB + ")";
+        color.push(graphBackground);
+        var graphOutline = "rgb(" 
+        + (randomR - 80) + ", " 
+        + (randomG - 80) + ", " 
+        + (randomB - 80) + ")";
+        linhas_fora.push(graphOutline);
+        var hoverColors = "rgb(" 
+        + (randomR + 25) + ", " 
+        + (randomG + 25) + ", " 
+        + (randomB + 25) + ")";
+        hover_color.push(hoverColors);
     });
     var myChart = new Chart(ctx2, {
         type: 'pie',
@@ -57,7 +104,10 @@ $.ajax({
             datasets: [{
                 label: 'Vendas por dia',
                 data: dadoss,
-                borderWidth: 0
+                borderWidth: 1,
+                backgroundColor: color,
+                hoverBackgroundColor: hover_color,
+                borderColor: linhas_fora
             }]
         },
         options: {
