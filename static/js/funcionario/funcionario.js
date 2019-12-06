@@ -47,7 +47,7 @@ $(document).ready(function(){
            if(data == true){
              return 'Masculino';
            }
-           return 'Feminio';
+           return 'Feminino';
          }
        }
     ]
