@@ -74,7 +74,10 @@ $(document).ready(function(){
                   'quantidade':'',
                   'desconto': '',
                 }];
-                
+                $("select[name='cliente_pedido']").val($("select[name='cliente_pedido'] option:first").val());
+                $("select[name='atendente_pedido']").val($("select[name='atendente_pedido'] option:first").val());
+
+
             },
               excluir_linha:function(index){
                   if(this.dados.length >1){
