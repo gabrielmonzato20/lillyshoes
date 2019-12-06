@@ -127,8 +127,8 @@ $(document).ready(function(){
                 type: 'success',
                 title: response.data.menssagem
               });
-              $('select[name="cliente_pedido"]').val('');
-              $('select[name="atendente_pedido"]').val('');
+              $("select[name='cliente_pedido']").val($("select[name='cliente_pedido'] option:first").val());
+              $("select[name='atendente_pedido']").val($("select[name='atendente_pedido'] option:first").val());
               tabela_pedido.DataTable().ajax.reload();
               this.dados = [{
                 'produto':'  ',
