@@ -68,6 +68,14 @@ $(document).ready(function(){
                 })
                 console.log(this.dados);
               },
+              limpa_form:function(){
+                this.dados = [{
+                  'produto':'  ',
+                  'quantidade':'',
+                  'desconto': '',
+                }];
+                
+            },
               excluir_linha:function(index){
                   if(this.dados.length >1){
                       this.dados.splice(index,1)
