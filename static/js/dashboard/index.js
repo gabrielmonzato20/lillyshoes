@@ -6,14 +6,14 @@ $.ajax({
     url: '/total_pedidos',
     type:'GET',
 }).done(function(data){
-    var label = [];
-    var dadoss = [];
+    var label_pie = [];
+    var dadoss_pie = [];
     var color = [];
     var linhas_fora = [];
     var hover_color = [];
     $.each( JSON.parse(data),function(index, value){
-        label.push(value['atendente']); 
-        dadoss.push(value['total']);
+        label_pie.push(value['atendente']); 
+        dadoss_pie.push(value['total']);
         var randomR = Math.floor((Math.random() * 130) + 100);
         var randomG = Math.floor((Math.random() * 130) + 100);
         var randomB = Math.floor((Math.random() * 130) + 100);
@@ -34,13 +34,14 @@ $.ajax({
         + (randomB + 25) + ")";
         hover_color.push(hoverColors);
     });
+    console.log(label_pie);
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: label,
+            labels: label_pie,
             datasets: [{
                 label: 'Vendas por atendente',
-                data: dadoss,
+                data: dadoss_pie,
                 borderWidth: 1,
                 backgroundColor: color,
                 hoverBackgroundColor: hover_color,

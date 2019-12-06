@@ -93,7 +93,7 @@ $(document).ready(function(){
                     return false;
                   }
 
-                  axios({
+               axios({
         method: 'post',
         url:'/pedidos/store',
       data: {
@@ -119,6 +119,11 @@ $(document).ready(function(){
               $('select[name="cliente_pedido"]').val('');
               $('select[name="atendente_pedido"]').val('');
               tabela_pedido.DataTable().ajax.reload();
+              this.dados = [{
+                'produto':'  ',
+                'quantidade':'',
+                'desconto': '',
+              }];
               // console.log('oi');
               })
               .catch(function (error) {
@@ -136,6 +141,7 @@ $(document).ready(function(){
                   title: error.response.data
                 })
               });
+            
         }
         }
         });
@@ -215,7 +221,7 @@ var lista_ids = []
                       return false;
                     }
 
-                    axios({
+               axios({
           method: 'post',
           url:'/pedidos/edit/'+  $("#Editar_Pedido  input[name='id_pedido']").val(),
         data: {
@@ -259,6 +265,7 @@ var lista_ids = []
                     title: error.response.data
                   })
                 });
+                app = app.bind(this);
           }
           }
           });

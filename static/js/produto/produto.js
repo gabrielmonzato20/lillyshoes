@@ -97,7 +97,14 @@ $(document).ready(function(){
 
   })
 });
-
+$('#limpa_campos_produto').click(function(){
+  $("input[name='produto_nome']").val('');
+  $("input[name='produto_descricao']").val('');
+  $("input[name='produto_preco']").val('');
+  $("input[name='produto_preco_venda']").val('');
+  $("input[name='produto_estoque']").val('');
+  $("select[name='produto_tamanho']").val('');
+});
     $("#destroy_produto").click(function(){
         $.ajax({
           url:"/produtos/destroy/"+$(this).attr('idd'),
@@ -154,6 +161,7 @@ $(document).ready(function(){
     $("input[name='endereco_cliente']").val('');
     $("input[name='telefone_cliente]").val('');
   });
+
     $('#cadastra_produto').click(function(){
         if ($("input[name='nome_produto']").val() == '' || $("#estoquec").val() == '' || $("#precoc").val() == ''){
           const Toast = Swal.mixin({
@@ -221,12 +229,16 @@ $(document).on('click','#editar_produto',function(){
     url:'/produtos/show/'+$(this).attr('idd'),
     success: function(data){
       console.log(data.data[0]['id']);
+      console.log(data.data);
       $("#Editar_produto input[name='produto_nome_edit']").val(data.data[0]['nome']);
       $("#Editar_produto input[name='produto_descricao_edit']").val(data.data[0]['descricao']);
       $("#Editar_produto input[name='produto_cor_edit']").val(data.data[0]['cor']);
       $("#Editar_produto input[name='produto_preco_edit']").val(data.data[0]['preco']);
       $("#Editar_produto input[name='produto_tamanho_edit']").val(data.data[0]['tamamho']);
       $("#Editar_produto input[name='produto_estoque_edit']").val(data.data[0]['quantidade']);
+      $("#Editar_produto input[name='produto_preco_venda_edit']").val(data.data[0]['preco_venda']);
+      $("#Editar_produto input[name='produto_preco_venda_edit']").val(data.data[0]['preco_venda']);
+      $("#Editar_produto select[name='produto_tamanho_edit']").val(data.data[0]['tamamho']);
       $("#Editar_produto #edit_produtos").attr('idd',data.data[0]['id'])
       $("#Editar_produto").modal()
     },
