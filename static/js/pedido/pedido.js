@@ -102,7 +102,7 @@ $(document).ready(function(){
       atendente:$('select[name="atendente_pedido"]').val()
     },
     headers: { "X-CSRFToken":  csrftoken }
-  }) .then(function (response) {
+  }).then(function (response) {
                   console.log(response)
 
                   const Toast = Swal.mixin({
@@ -125,7 +125,7 @@ $(document).ready(function(){
                 'desconto': '',
               }];
               // console.log('oi');
-              })
+              }.bind(this))
               .catch(function (error) {
                 console.log(error.responseText);
                 console.log(error.response);
