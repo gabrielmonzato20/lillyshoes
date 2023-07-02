@@ -27,7 +27,7 @@ SECRET_KEY = '4&w*tx_-gw@qsw12+ugdt4$jx1eeyl+_biii4e9a^wu7s*w@kz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.vercel.app', '.now.sh']
 LOGIN_REDIRECT_URL = '/sitema/index'
 
 
@@ -141,4 +141,6 @@ STATIC_ROOT =os.path.join(PROJECT_ROOT,'static')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+STATICFILES_DIRS = [BASE_DIR/'static',]
+STATIC_ROOT = BASE_DIR/'staticfiles'
 django_heroku.settings(locals())
