@@ -83,10 +83,10 @@ WSGI_APPLICATION = 'Ope.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+#    'default': {
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#    }
 #    'default': {
 #        'ENGINE': 'django.db.backends.mysql',
 #        'NAME': 'lillyshoes',
@@ -95,6 +95,17 @@ DATABASES = {
 #        'HOST': 'lillyshoes.mysql.dbaas.com.br',   # Or an IP Address that your DB is hosted on
 #        'PORT': '3306',
 #    }
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'verceldb',
+        'USER': 'default',
+        'PASSWORD': 'wY5lDVtZE8mP',
+        'HOST': 'ep-wandering-flower-404947-pooler.us-east-1.postgres.vercel-storage.com',
+        'PORT': '',
+        'OPTIONS': {
+            'sslmode': 'require',
+        },
+    }
 }
 
 
