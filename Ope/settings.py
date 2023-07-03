@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-import django_heroku
 # import MySQLdb
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -27,7 +26,7 @@ SECRET_KEY = '4&w*tx_-gw@qsw12+ugdt4$jx1eeyl+_biii4e9a^wu7s*w@kz'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app', '.now.sh']
+ALLOWED_HOSTS = ['.vercel.app', '.now.sh','localhost']
 LOGIN_REDIRECT_URL = '/sitema/index'
 
 
@@ -135,12 +134,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = 'static'
+STATIC_URL = '/static/'
 PROJECT_ROOT =os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT =os.path.join(PROJECT_ROOT,'static')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
-STATICFILES_DIRS = [BASE_DIR/'static',]
-STATIC_ROOT = BASE_DIR/'staticfiles'
-django_heroku.settings(locals())
+STATICFILES_DIRS = [BASE_DIR+'/static']
+STATIC_ROOT = BASE_DIR+'/staticfiles'

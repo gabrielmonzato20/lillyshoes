@@ -10,6 +10,6 @@ urlpatterns = [
     path('show/<id>', ViewFuncionario.show, name='show_cliente'),
     path('view', ViewFuncionario.view, name='view_atendente'),
     path('', ViewFuncionario.log, name='login'),
-    path('/logout', ViewFuncionario.logout, name='logout'),
+    path('logout', ViewFuncionario.logout, name='logout'),
 
 ]
